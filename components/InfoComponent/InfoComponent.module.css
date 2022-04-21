@@ -1,0 +1,17 @@
+.container {
+  width: 100%;
+  text-align: center;
+}
+.descriptionContainer {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: justify;
+  width: 90%;
+  margin: 20px auto;
+  margin-bottom: 100px;
+}
+
+.subtitle {
+  color: #4f4f4f;
+}
