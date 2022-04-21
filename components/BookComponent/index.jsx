@@ -1,21 +1,55 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import styles from './BookComponent.module.css';
 
-function BookComponent({ children, book, active, setActive }) {
-  if (!book?.title) return null;
+const itemVariants = {
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+  hidden: {
+    opacity: 0,
+    x: -1000,
+  },
+  exit: {
+    x: -1000,
+  },
+};
+
+const swipePower = (offset, velocity) => {
+  return Math.abs(offset) * velocity;
+};
+const swipeConfidenceThreshold = 10000;
+
+function BookComponent({ children, book, active, paginate }) {
+  if (!book?.title || !active) return null;
   return (
-    <div
+    <motion.div
       className={`${styles.container} ${active ? styles.containerActive : ''}`}
-      onClick={setActive}
+      variants={itemVariants}
+      animate="visible"
+      exit="exit"
+      initial="hidden"
+      dragConstraints={{ x: 500 }}
+      drag="x"
+      onDragEnd={(e, { offset, velocity }) => {
+        const swipe = swipePower(offset.x, velocity.x);
+
+        if (swipe < -swipeConfidenceThreshold) {
+          paginate(1);
+        } else if (swipe > swipeConfidenceThreshold) {
+          paginate(0);
+        }
+      }}
     >
       <img
         src={book?.imageLinks?.thumbnail}
         alt=""
-        className={styles.bookImage}
+        className={`${styles.bookImage} ${
+          active ? styles.bookImageActive : ''
+        }`}
       />
-      {/* <h4>{book?.title} </h4> */}
-      {/* <span className={styles.bookPrice}> {book.price} </span> */}
-    </div>
+    </motion.div>
   );
 }
 

@@ -10,8 +10,14 @@
 .bookContainer {
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow-x: scroll;
   padding: 50px 0px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.bookContainer::-webkit-scrollbar {
+  display: none;
 }
 
 .title {

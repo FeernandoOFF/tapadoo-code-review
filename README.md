@@ -21,3 +21,7 @@ The only tips we give are:
 3. Imagine it was going live
 
 ## The solution
+
+I use the BookServer API for get the initial books and based on the ISBN call a Google API that gives me a description and Images
+
+[Dribble inspiration](https://dribbble.com/shots/16246812-Book-Store-Mobile-App/attachments/8111441?mode=media)
