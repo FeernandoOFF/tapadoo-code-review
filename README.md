@@ -32,3 +32,10 @@ Some of these books come with no title, so i have to filter them out
 I use Framer-Motion in order to make some animations and mainly gestures for mobile
 
 [Dribble inspiration](https://dribbble.com/shots/16246812-Book-Store-Mobile-App/attachments/8111441?mode=media)
+
+## Start the project
+
+Run `npm i` <br>
+Then `npm run dev` for local development <br>
+or
+Run `npm run build` and ` npm start` for production
