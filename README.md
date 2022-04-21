@@ -22,6 +22,13 @@ The only tips we give are:
 
 ## The solution
 
-I use the BookServer API for get the initial books and based on the ISBN call a Google API that gives me a description and Images
+### The data
+
+I use the BookServer API for get the initial books and based on the ISBN call a Google API that gives me a description and Images.
+Some of these books come with no title, so i have to filter them out
+
+### The gestures
+
+I use Framer-Motion in order to make some animations and mainly gestures for mobile
 
 [Dribble inspiration](https://dribbble.com/shots/16246812-Book-Store-Mobile-App/attachments/8111441?mode=media)
