@@ -9,6 +9,7 @@
 
 .bookContainer {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   overflow-x: scroll;
@@ -24,4 +25,23 @@
   text-align: center;
   font-size: 2rem;
   padding: 60px 0px;
+}
+
+.prevButton,
+.nextButton {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  background: #fff;
+  height: 50px;
+  width: 50px;
+  border-radius: 100%;
+}
+
+.prevButton {
+  left: 10%;
+}
+.nextButton {
+  right: 10%;
 }

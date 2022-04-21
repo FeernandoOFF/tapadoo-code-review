@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { AnimatePresence } from 'framer-motion';
+
+// Own Components
 import styles from '../styles/Home.module.css';
 import { getBooks } from '../utils/api';
-import BookComponent from '../components/BookComponent';
 import Info from '../components/InfoComponent';
+import BookComponent from '../components/BookComponent';
 import BottomMenu from '../components/BottomMenu';
-import { AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [books, setBooks] = useState([]);
@@ -13,11 +15,13 @@ export default function Home() {
 
   const getInitialBooks = () => {
     getBooks().then((books) => {
+      // Some books come with no title. We need to filter them out
       let filteredBooks = books.filter((book) => (book?.title ? book : null));
       setBooks(filteredBooks);
     });
   };
 
+  // This function pass to the next book without the need of sending extra props
   const paginate = (direction) => {
     if (direction === 1 && active < books.length - 1) setActive(++active);
     if (direction === 0 && active > 0) setActive(--active);
@@ -39,6 +43,12 @@ export default function Home() {
       <h1 className={styles.title}>Tapadoo Books</h1>
 
       <div className={styles.bookContainer}>
+        <div className={styles.prevButton} onClick={() => paginate(0)}>
+          {'<'}
+        </div>
+        <div className={styles.nextButton} onClick={() => paginate(1)}>
+          {'>'}
+        </div>
         <AnimatePresence initial={false}>
           {books?.map((book, i) => (
             <BookComponent

@@ -30,7 +30,7 @@ function BookComponent({ children, book, active, paginate }) {
       animate="visible"
       exit="exit"
       initial="hidden"
-      dragConstraints={{ x: 500 }}
+      dragConstraints={{ right: 100, left: 100 }}
       drag="x"
       onDragEnd={(e, { offset, velocity }) => {
         const swipe = swipePower(offset.x, velocity.x);
