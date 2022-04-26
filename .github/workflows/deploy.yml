@@ -1,33 +1,29 @@
-name: Deploy to Github Pages
+name: GitHub Pages deploy
 
 on:
   push:
-    branches:
-      - main
-
-  workflow_dispatch:
+    branches: [main]
 
 jobs:
-  deployment:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
         with:
-          node-version: 'lts/*'
-          cache: 'npm'
+          node-version: '14.x'
 
-      - name: Build
-        run: |
-          npm i
-          npm run build
-          npm run export
+      - name: Installing my packages
+        run: npm ci
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Build my App
+        run: npm run build && npm run export && touch ./out/.nojekyll
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./out
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: out # The folder the action should deploy.
