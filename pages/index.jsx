@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
+import {
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineArrowUp,
+} from 'react-icons/ai';
 // Own Components
 import styles from '../styles/Home.module.css';
-import { getBooks } from '../utils/api';
+import { findOneBook, getBooks } from '../utils/api';
 import Info from '../components/InfoComponent';
 import BookComponent from '../components/BookComponent';
 import BottomMenu from '../components/BottomMenu';
+import Header from '../components/Header';
+import Modal from '../components/Modal';
 
 export default function Home() {
   const [books, setBooks] = useState([]);
   const [active, setActive] = useState(0);
+  const [bookActive, setBookActive] = useState(null);
+  const [overviewActive, setoverviewActive] = useState(false);
 
   const getInitialBooks = () => {
     getBooks().then((books) => {
@@ -33,6 +43,10 @@ export default function Home() {
   useEffect(() => {
     getInitialBooks();
   }, []);
+  useEffect(() => {
+    if (!active || !books) return;
+    setBookActive(books.find((book, i) => i === active));
+  }, [active, books]);
 
   return (
     <div className={styles.container}>
@@ -40,15 +54,23 @@ export default function Home() {
         <title>Tapadoo Books | Fernando Obregon</title>
       </Head>
 
-      <h1 className={styles.title}>Tapadoo Books</h1>
+      <Header />
 
       <div className={styles.bookContainer}>
-        <div className={styles.prevButton} onClick={() => paginate(0)}>
-          {'<'}
-        </div>
-        <div className={styles.nextButton} onClick={() => paginate(1)}>
-          {'>'}
-        </div>
+        <Arrow
+          className={styles.prevButton}
+          onClick={() => paginate(0)}
+          disabled={active === 0}
+        >
+          <AiOutlineArrowLeft />
+        </Arrow>
+        <Arrow
+          className={styles.nextButton}
+          onClick={() => paginate(1)}
+          disabled={books.length - 1 === active}
+        >
+          <AiOutlineArrowRight />
+        </Arrow>
         <AnimatePresence initial={false}>
           {books?.map((book, i) => (
             <BookComponent
@@ -61,7 +83,30 @@ export default function Home() {
         </AnimatePresence>
       </div>
       <Info book={books.find((book, i) => i === active)} />
-      <BottomMenu book={books.find((_, i) => i === active)} />
+      <motion.div
+        whileHover={{ y: -20 }}
+        className={styles.seeMore}
+        onClick={() => setoverviewActive(true)}
+      >
+        <AiOutlineArrowUp />
+        <p>See More</p>
+      </motion.div>
+
+      {overviewActive && (
+        <Modal setActive={setoverviewActive} book={bookActive} />
+      )}
     </div>
+  );
+}
+
+function Arrow({ children, onClick, className, disabled }) {
+  return (
+    <motion.div
+      whileTap={{ scale: 0.8 }}
+      className={`${className} ${disabled ? styles.disabledArrow : ''}`}
+      onClick={onClick}
+    >
+      {children}
+    </motion.div>
   );
 }

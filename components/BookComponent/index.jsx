@@ -9,10 +9,9 @@ const itemVariants = {
   },
   hidden: {
     opacity: 0,
-    x: -1000,
   },
   exit: {
-    x: -1000,
+    opacity: 0,
   },
 };
 

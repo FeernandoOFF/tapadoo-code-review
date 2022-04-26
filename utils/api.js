@@ -1,12 +1,14 @@
 // Tapadoo Documented API
 const TAPADOO_URL =
   'http://private-anon-8b5df47dc0-tpbookserver.apiary-mock.com/books';
+// 'https://tpbookserver.herokuapp.com/books';
 
 // Google Isbn API
 const GOOGLE_URL = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
 
+let tapadooBooks;
 export async function getBooks() {
-  let tapadooBooks = await fetch(TAPADOO_URL);
+  tapadooBooks = await fetch(TAPADOO_URL);
   tapadooBooks = await tapadooBooks.json();
 
   // Replace "-" with "" in ISBN and fetch google
@@ -31,4 +33,9 @@ export async function getBooks() {
   });
 
   return booksInfo;
+}
+
+export async function findOneBook({ title }) {
+  const book = tapadooBooks.find((b) => title === b.title);
+  return book;
 }
